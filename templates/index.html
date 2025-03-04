@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片素材库</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 1.4em;
+            color: #2c3e50;
+        }
+        .main-content {
+            background-color: #fff;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+        .view-toggle button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .view-toggle button.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        .comments-section {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #eaeaea;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+        .comment-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: white;
+            border-left: 3px solid #3498db;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .my-comment {
+            border-left: 3px solid #2ecc71;
+            text-align: right;
+        }
+        .others-comment {
+            border-left: 3px solid #3498db;
+        }
+        .comment-item p {
+            margin: 0;
+        }
+        .comment-meta {
+            font-size: 0.8em;
+            color: #95a5a6;
+            margin-top: 5px;
+        }
+        .input-section {
+            margin-top: 20px;
+            display: flex;
+        }
+        .input-section textarea {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            font-family: inherit;
+            height: 60px;
+        }
+        .input-section button {
+            margin-left: 10px;
+            padding: 0 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .input-section button:hover {
+            background-color: #2980b9;
+        }
+        .status-text {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin-right: 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+        }
+        .gallery-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .filter-tag {
+            padding: 5px 15px;
+            background-color: #f0f0f0;
+            border-radius: 15px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+        .filter-tag.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .image-info {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .image-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        .image-metadata {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .resource-preview {
+            width: 100%;
+            height: 250px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .resource-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        @media (max-width: 768px) {
+            .input-section {
+                flex-direction: column;
+            }
+            .input-section button {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+                padding: 10px;
+            }
+            .gallery-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .search-bar {
+                max-width: 100%;
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">素材库</div>
+            <div class="search-bar">
+                <input type="text" placeholder="搜索素材...">
+            </div>
+            <div class="user-info">
+                <span class="status-text">高级会员</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="image-info">
+                <h2 class="image-title">高清自然风景图集 #2475</h2>
+                <div class="image-metadata">
+                    <div class="metadata-item">
+                        <span>分辨率:</span>
+                        <span>4K (3840x2160)</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span>格式:</span>
+                        <span>JPG</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span>版权:</span>
+                        <span>CC BY-NC</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span>上传者:</span>
+                        <span>NatureLover</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resource-preview">
+                <img src="/api/placeholder/800/500" alt="自然风景预览图">
+            </div>
+            
+            <div class="gallery-header">
+                <h3>评论及反馈</h3>
+                <div class="view-toggle">
+                    <button class="active">最新</button>
+                    <button>热门</button>
+                </div>
+            </div>
+            
+            <div class="gallery-filters">
+                <div class="filter-tag active">全部</div>
+                <div class="filter-tag">问题</div>
+                <div class="filter-tag">建议</div>
+                <div class="filter-tag">赞赏</div>
+            </div>
+            
+            <div class="comments-section" id="commentsContainer">
+                <!-- 消息将在这里动态添加 -->
+            </div>
+            
+            <div class="input-section">
+                <textarea id="messageInput" placeholder="添加评论或反馈..."></textarea>
+                <button id="sendButton">发布</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 用户ID模拟，实际应用中应从登录系统获取
+        const currentUserId = 'user_' + Math.floor(Math.random() * 1000);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.getElementById('sendButton');
+            const messageInput = document.getElementById('messageInput');
+            const commentsContainer = document.getElementById('commentsContainer');
+            
+            // 加载历史消息
+            loadMessages();
+            
+            // 设置消息轮询
+            setInterval(loadMessages, 3000);
+            
+            sendButton.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message) {
+                    sendMessage(message);
+                    messageInput.value = '';
+                }
+            });
+            
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendButton.click();
+                }
+            });
+            
+            // 添加过滤标签点击事件
+            const filterTags = document.querySelectorAll('.filter-tag');
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    filterTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    // 在实际应用中，这里可以添加过滤逻辑
+                });
+            });
+            
+            // 添加视图切换点击事件
+            const viewButtons = document.querySelectorAll('.view-toggle button');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    viewButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    // 在实际应用中，这里可以添加排序逻辑
+                });
+            });
+            
+            function sendMessage(content) {
+                fetch('/api/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: content,
+                        user_id: currentUserId
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addMessageToUI(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+            
+            function loadMessages() {
+                fetch('/api/messages')
+                .then(response => response.json())
+                .then(data => {
+                    // 清空现有消息以避免重复
+                    commentsContainer.innerHTML = '';
+                    
+                    // 添加所有消息
+                    data.messages.forEach(message => {
+                        addMessageToUI(message);
+                    });
+                    
+                    // 滚动到底部
+                    commentsContainer.scrollTop = commentsContainer.scrollHeight;
+                })
+                .catch(error => console.error('Error:', error));
+            }
+            
+            function addMessageToUI(message) {
+                const messageElement = document.createElement('div');
+                messageElement.className = message.user_id === currentUserId ? 
+                    'comment-item my-comment' : 'comment-item others-comment';
+                
+                const content = document.createElement('p');
+                content.textContent = message.content;
+                
+                const meta = document.createElement('div');
+                meta.className = 'comment-meta';
+                
+                // 格式化时间
+                const date = new Date(message.timestamp);
+                const formattedTime = date.toLocaleDateString() + ' ' + 
+                    date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                meta.textContent = message.user_id === currentUserId ? 
+                    '你 · ' + formattedTime : '素材贡献者 · ' + formattedTime;
+                
+                messageElement.appendChild(content);
+                messageElement.appendChild(meta);
+                
+                commentsContainer.appendChild(messageElement);
+            }
+        });
+    </script>
+</body>
+</html>
+        

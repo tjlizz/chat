@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设计资源库 - 寻找灵感的最佳去处</title>
+    <style>
+        :root {
+            --primary: #3490dc;
+            --secondary: #6c757d;
+            --success: #38c172;
+            --danger: #e3342f;
+            --warning: #ffed4a;
+            --info: #6cb2eb;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --bg-color: #f7f9fc;
+            --text-color: #2d3748;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.5;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* 头部样式 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-item {
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary);
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .search-button {
+            background-color: var(--light);
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        /* 主要内容样式 */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-description {
+            color: var(--secondary);
+            max-width: 600px;
+        }
+        
+        /* 搜索区域 */
+        .search-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 144, 220, 0.25);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2779bd;
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .filter-tag {
+            padding: 0.4rem 0.8rem;
+            background-color: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-tag:hover {
+            background-color: #e2e8f0;
+        }
+        
+        .filter-tag.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* 素材网格 */
+        .materials-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .result-info {
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        .sort-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .sort-label {
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        .sort-select {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 0.875rem;
+        }
+        
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .material-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .material-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-thumbnail {
+            height: 180px;
+            background-color: #f1f5f9;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+        }
+        
+        .card-content {
+            padding: 1rem;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 3em;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--secondary);
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        
+        .card-tag {
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            gap: 0.25rem;
+        }
+        
+        .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .page-link:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .page-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* 聊天组件 */
+        .chat-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .chat-container {
+            position: fixed;
+            bottom: 7rem;
+            right: 2rem;
+            width: 350px;
+            height: 450px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1001;
+        }
+        
+        .chat-header {
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-title {
+            font-weight: 600;
+        }
+        
+        .close-chat {
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            word-break: break-word;
+        }
+        
+        .message-incoming {
+            background-color: #f1f5f9;
+            align-self: flex-start;
+            border-bottom-left-radius: 0.25rem;
+        }
+        
+        .message-outgoing {
+            background-color: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0.25rem;
+        }
+        
+        .chat-input-area {
+            padding: 0.75rem;
+            border-top: 1px solid #edf2f7;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 1.5rem;
+            padding: 0.75rem;
+            resize: none;
+            max-height: 100px;
+            font-family: inherit;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-inner {
+                height: 60px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .materials-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .chat-container {
+                width: 300px;
+                right: 1rem;
+                bottom: 5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">DesignAssets</div>
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item active">素材库</a>
+                    <a href="#" class="nav-item">模板</a>
+                    <a href="#" class="nav-item">图标</a>
+                    <a href="#" class="nav-item">教程</a>
+                    <a href="#" class="nav-item">灵感</a>
+                </nav>
+                <div class="user-actions">
+                    <button class="search-button">🔍</button>
+                    <div class="avatar">U</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">设计素材库</h1>
+                <p class="page-description">发现高质量的设计资源，为您的项目增添创意与灵感</p>
+            </div>
+            
+            <div class="search-section">
+                <div class="search-form">
+                    <input type="text" class="search-input" placeholder="搜索素材、模板或创意灵感..." id="searchInput">
+                    <button class="btn btn-primary" id="searchButton">搜索</button>
+                </div>
+                <div class="filters" id="filterTags">
+                    <div class="filter-tag active" data-type="all">全部</div>
+                    <div class="filter-tag" data-type="image">图片</div>
+                    <div class="filter-tag" data-type="vector">矢量图</div>
+                    <div class="filter-tag" data-type="video">视频</div>
+                    <div class="filter-tag" data-type="audio">音频</div>
+                    <div class="filter-tag" data-type="template">模板</div>
+                    <div class="filter-tag" data-type="font">字体</div>
+                </div>
+            </div>
+            
+            <div class="materials-section">
+                <div class="materials-header">
+                    <div class="result-info">
+                        找到 <span id="resultCount">0</span> 个素材
+                    </div>
+                    <div class="sort-control">
+                        <span class="sort-label">排序:</span>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="relevance">相关度</option>
+                            <option value="newest">最新</option>
+                            <option value="popular">热门</option>
+                            <option value="downloads">下载量</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="materials-grid" id="materialsGrid"></div>
+                
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="chat-widget">
+        <div class="chat-toggle" id="chatToggle">💬</div>
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <div class="chat-title">素材助手</div>
+                <div class="close-chat" id="closeChat">✕</div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message message-incoming">
+                    您好！我是设计素材助手，有什么可以帮您的吗？
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <textarea class="chat-input" placeholder="输入您的问题..." id="chatInput"></textarea>
+                <button class="send-button" id="sendButton">→</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM元素
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const filterTags = document.getElementById('filterTags').querySelectorAll('.filter-tag');
+            const materialsGrid = document.getElementById('materialsGrid');
+            const resultCount = document.getElementById('resultCount');
+            const sortSelect = document.getElementById('sortSelect');
+            const pagination = document.getElementById('pagination');
+            
+            // 聊天组件元素
+            const chatToggle = document.getElementById('chatToggle');
+            const chatContainer = document.getElementById('chatContainer');
+            const closeChat = document.getElementById('closeChat');
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // 当前过滤器和排序
+            let currentFilter = 'all';
+            let currentSort = 'relevance';
+            let currentPage = 1;
+            const perPage = 9;
+            
+            // 示例素材数据
+            const materialTypes = ['image', 'vector', 'template', 'video', 'audio', 'font'];
+            const materialTitles = [
+                '创意简报模板', '抽象背景图集', '商业展示动画', '社交媒体视觉包',
+                '品牌标识套件', 'UI界面组件库', '插画素材包', '网页设计模板',
+                '摄影作品集', '图标系列', '字体组合', '产品展示模型',
+                '营销Banner套装', '视频转场特效', '音效素材库', '3D渲染素材'
+            ];
+            const materialTags = [
+                '设计', '商业', '创意', '网页', '用户界面', '动画', '品牌',
+                '印刷', '排版', '插画', '摄影', '图标', '营销', '素描', '3D'
+            ];
+            
+            // 初始化
+            initializeMaterials();
+            setUpEventListeners();
+            
+            // 设置事件监听器
+            function setUpEventListeners() {
+                // 搜索按钮
+                searchButton.addEventListener('click', function() {
+                    searchMaterials();
+                });
+                
+                // 回车键搜索
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchMaterials();
+                    }
+                });
+                
+                // 过滤标签
+                filterTags.forEach(tag => {
+                    tag.addEventListener('click', function() {
+                        filterTags.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        currentFilter = this.getAttribute('data-type');
+                        currentPage = 1;
+                        filterMaterials();
+                    });
+                });
+                
+                // 排序选择
+                sortSelect.addEventListener('change', function() {
+                    currentSort = this.value;
+                    sortMaterials();
+                });
+                
+                // 聊天组件切换
+                chatToggle.addEventListener('click', function() {
+                    chatContainer.style.display = 'flex';
+                    chatToggle.style.display = 'none';
+                });
+                
+                closeChat.addEventListener('click', function() {
+                    chatContainer.style.display = 'none';
+                    chatToggle.style.display = 'flex';
+                });
+                
+                // 发送消息
+                sendButton.addEventListener('click', sendMessage);
+                
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+            }
+            
+            // 初始化素材展示
+            function initializeMaterials() {
+                // 生成随机素材数量（25-50个）
+                const totalMaterials = Math.floor(Math.random() * 26) + 25;
+                const allMaterials = generateMaterials(totalMaterials);
+                
+                // 保存素材数据到全局变量
+                window.allMaterials = allMaterials;
+                
+                // 更新显示结果数量
+                resultCount.textContent = allMaterials.length;
+                
+                // 显示第一页
+                displayMaterials(allMaterials);
+                
+                // 初始化分页
+                createPagination(allMaterials.length);
+            }
+            
+            // 生成随机素材数据
+            function generateMaterials(count) {
+                const materials = [];
+                
+                for (let i = 0; i < count; i++) {
+                    // 随机选择类型
+                    const type = materialTypes[Math.floor(Math.random() * materialTypes.length)];
+                    
+                    // 随机选择标题
+                    const title = materialTitles[Math.floor(Math.random() * materialTitles.length)];
+                    
+                    // 随机生成3天-2个月前的日期
+                    const daysAgo = Math.floor(Math.random() * 60) + 3;
+                    const date = new Date();
+                    date.setDate(date.getDate() - daysAgo);
+                    
+                    // 随机选择1-3个标签
+                    const tags = [];
+                    const tagCount = Math.floor(Math.random() * 3) + 1;
+                    
+                    for (let j = 0; j < tagCount; j++) {
+                        const tag = materialTags[Math.floor(Math.random() * materialTags.length)];
+                        if (!tags.includes(tag)) {
+                            tags.push(tag);
+                        }
+                    }
+                    
+                    // 随机下载量
+                    const downloads = Math.floor(Math.random() * 9900) + 100;
+                    
+                    materials.push({
+                        id: i + 1,
+                        title: title,
+                        type: type,
+                        tags: tags,
+                        date: date,
+                        downloads: downloads
+                    });
+                }
+                
+                return materials;
+            }
+            
+            // 显示素材
+            function displayMaterials(materials) {
+                // 清空容器
+                materialsGrid.innerHTML = '';
+                
+                // 计算分页
+                const startIndex = (currentPage - 1) * perPage;
+                const endIndex = Math.min(startIndex + perPage, materials.length);
+                const paginatedMaterials = materials.slice(startIndex, endIndex);
+                
+                // 如果没有素材
+                if (paginatedMaterials.length === 0) {
+                    materialsGrid.innerHTML = '<div class="no-results">没有找到匹配的素材</div>';
+                    return;
+                }
+                
+                // 添加素材卡片
+                paginatedMaterials.forEach(material => {
+                    const card = document.createElement('div');
+                    card.className = 'material-card';
+                    card.setAttribute('data-id', material.id);
+                    
+                    // 格式化日期
+                    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+                    const formattedDate = material.date.toLocaleDateString('zh-CN', dateOptions);
+                    
+                    // 类型显示
+                    let typeDisplay = '素材';
+                    switch(material.type) {
+                        case 'image': typeDisplay = '图片'; break;
+                        case 'vector': typeDisplay = '矢量图'; break;
+                        case 'video': typeDisplay = '视频'; break;
+                        case 'audio': typeDisplay = '音频'; break;
+                        case 'template': typeDisplay = '模板'; break;
+                        case 'font': typeDisplay = '字体'; break;
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="card-thumbnail">
+                            ${typeDisplay}预览
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">${material.title}</h3>
+                            <div class="card-meta">
+                                <span>${typeDisplay}</span>
+                                <span>${formattedDate}</span>
+                            </div>
+                            <div class="card-tags">
+                                ${material.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 添加点击事件
+                    card.addEventListener('click', function() {
+                        // 显示聊天窗口
+                        chatContainer.style.display = 'flex';
+                        chatToggle.style.display = 'none';
+                        
+                        // 添加关于所选素材的消息
+                        const message = document.createElement('div');
+                        message.className = 'message message-incoming';
+                        message.textContent = `您好，您正在查看"${material.title}"。需要下载或了解更多信息吗？`;
+                        chatMessages.appendChild(message);
+                        
+                        // 滚动到最新消息
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    });
+                    
+                    materialsGrid.appendChild(card);
+                });
+            }
+            
+            // 创建分页
+            function createPagination(totalItems) {
+                // 清空分页容器
+                pagination.innerHTML = '';
+                
+                // 计算总页数
+                const totalPages = Math.ceil(totalItems / perPage);
+                
+                // 如果只有一页，不显示分页
+                if (totalPages <= 1) {
+                    return;
+                }
+                
+                // 确定显示的页码范围
+                let startPage = Math.max(1, currentPage - 2);
+                let endPage = Math.min(totalPages, startPage + 4);
+                
+                // 调整起始页
+                if (endPage - startPage < 4) {
+                    startPage = Math.max(1, endPage - 4);
+                }
+                
+                // 上一页
+                if (currentPage > 1) {
+                    const prevButton = document.createElement('div');
+                    prevButton.className = 'page-link';
+                    prevButton.textContent = '«';
+                    prevButton.addEventListener('click', function() {
+                        goToPage(currentPage - 1);
+                    });
+                    pagination.appendChild(prevButton);
+                }
+                
+                // 第一页
+                if (startPage > 1) {
+                    const firstPage = document.createElement('div');
+                    firstPage.className = 'page-link';
+                    firstPage.textContent = '1';
+                    firstPage.addEventListener('click', function() {
+                        goToPage(1);
+                    });
+                    pagination.appendChild(firstPage);
+                    
+                    // 省略号
+                    if (startPage > 2) {
+                        const ellipsis = document.createElement('div');
+                        ellipsis.className = 'page-link';
+                        ellipsis.textContent = '...';
+                        ellipsis.style.cursor = 'default';
+                        pagination.appendChild(ellipsis);
+                    }
+                }
+                
+                // 页码
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageLink = document.createElement('div');
+                    pageLink.className = 'page-link';
+                    if (i === currentPage) {
+                        pageLink.classList.add('active');
+                    }
+                    pageLink.textContent = i;
+                    pageLink.addEventListener('click', function() {
+                        goToPage(i);
+                    });
+                    pagination.appendChild(pageLink);
+                }
+                
+                // 最后一页
+                if (endPage < totalPages) {
+                    // 省略号
+                    if (endPage < totalPages - 1) {
+                        const ellipsis = document.createElement('div');
+                        ellipsis.className = 'page-link';
+                        ellipsis.textContent = '...';
+                        ellipsis.style.cursor = 'default';
+                        pagination.appendChild(ellipsis);
+                    }
+                    
+                    const lastPage = document.createElement('div');
+                    lastPage.className = 'page-link';
+                    lastPage.textContent = totalPages;
+                    lastPage.addEventListener('click', function() {
+                        goToPage(totalPages);
+                    });
+                    pagination.appendChild(lastPage);
+                }
+                
+                // 下一页
+                if (currentPage < totalPages) {
+                    const nextButton = document.createElement('div');
+                    nextButton.className = 'page-link';
+                    nextButton.textContent = '»';
+                    nextButton.addEventListener('click', function() {
+                        goToPage(currentPage + 1);
+                    });
+                    pagination.appendChild(nextButton);
+                }
+            }
+            
+            // 跳转到指定页面
+            function goToPage(page) {
+                currentPage = page;
+                displayMaterials(window.filteredMaterials || window.allMaterials);
+                
+                // 更新分页
+                createPagination((window.filteredMaterials || window.allMaterials).length);
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // 搜索素材
+            function searchMaterials() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                
+                // 如果搜索词为空，显示所有素材
+                if (!searchTerm) {
+                    window.filteredMaterials = null;
+                    resultCount.textContent = window.allMaterials.length;
+                    displayMaterials(window.allMaterials);
+                    createPagination(window.allMaterials.length);
+                    return;
+                }
+                
+                // 过滤素材
+                const filtered = window.allMaterials.filter(material => {
+                    return (
+                        material.title.toLowerCase().includes(searchTerm) ||
+                        material.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+                        material.type.toLowerCase().includes(searchTerm)
+                    );
+                });
+                
+                // 保存过滤结果
+                window.filteredMaterials = filtered;
+                
+                // 更新结果数量
+                resultCount.textContent = filtered.length;
+                
+                // 重置到第一页
+                currentPage = 1;
+                
+                // 显示过滤结果
+                displayMaterials(filtered);
+                
+                // 更新分页
+                createPagination(filtered.length);
+            }
+            
+            // 过滤素材
+            function filterMaterials() {
+                const baseData = window.allMaterials;
+                
+                // 如果选择"全部"，显示所有素材
+                if (currentFilter === 'all') {
+                    window.filteredMaterials = null;
+                    resultCount.textContent = baseData.length;
+                    displayMaterials(baseData);
+                    createPagination(baseData.length);
+                    return;
+                }
+                
+                // 按类型过滤
+                const filtered = baseData.filter(material => material.type === currentFilter);
+                
+                // 保存过滤结果
+                window.filteredMaterials = filtered;
+                
+                // 更新结果数量
+                resultCount.textContent = filtered.length;
+                
+                // 显示过滤结果
+                displayMaterials(filtered);
+                
+                // 更新分页
+                createPagination(filtered.length);
+            }
+            
+            // 排序素材
+            function sortMaterials() {
+                const dataToSort = window.filteredMaterials || window.allMaterials;
+                let sorted;
+                
+                switch (currentSort) {
+                    case 'newest':
+                        sorted = [...dataToSort].sort((a, b) => b.date - a.date);
+                        break;
+                    case 'popular':
+                    case 'downloads':
+                        sorted = [...dataToSort].sort((a, b) => b.downloads - a.downloads);
+                        break;
+                    default: // 相关度，保持原顺序
+                        sorted = [...dataToSort];
+                }
+                
+                if (window.filteredMaterials) {
+                    window.filteredMaterials = sorted;
+                } else {
+                    window.allMaterials = sorted;
+                }
+                
+                // 显示排序结果
+                displayMaterials(sorted);
+            }
+            
+            // 发送消息
+            function sendMessage() {
+                const messageText = chatInput.value.trim();
+                if (!messageText) return;
+                
+                // 添加用户消息
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message message-outgoing';
+                userMessage.textContent = messageText;
+                chatMessages.appendChild(userMessage);
+                
+                // 清空输入框
+                chatInput.value = '';
+                
+                // 滚动到最新消息
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // 发送到后端API
+                fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: messageText }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 添加回复消息
+                    setTimeout(() => {
+                        receiveMessage(data.reply || getRandomResponse());
+                    }, 500);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // 出错时使用随机回复
+                    setTimeout(() => {
+                        receiveMessage(getRandomResponse());
+                    }, 500);
+                });
+            }
+            
+            // 接收消息
+            function receiveMessage(text) {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message message-incoming';
+                botMessage.textContent = text;
+                chatMessages.appendChild(botMessage);
+                
+                // 滚动到最新消息
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // 获取随机回复
+            function getRandomResponse() {
+                const responses = [
+                    "您需要什么样的素材？我可以帮您查找。",
+                    "这个素材库有超过10,000个优质资源，您有特定需求吗？",
+                    "我们可以为您的项目提供定制化素材建议，请告诉我更多关于您的需求。",
+                    "您好，请问是在找哪类型的设计资源呢？",
+                    "最近上传了很多新素材，您想看看最新的内容吗？",
+                    "我可以帮您筛选最适合您项目的素材，请描述一下您的项目需求。"
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        });
+    </script>
+</body>
+</html>
